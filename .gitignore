@@ -1,0 +1,40 @@
+# Общие игнорируемые файлы для .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.vs/
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# Секретные файлы окружения
+.env
+.env.local
+.env.*.local
+
+# Результаты тестов и покрытия
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Выходные сборки
+/publish/
+/packages/
+
+# NuGet
+packages/
+*.nupkg
+
+# Резервные копии
+*.bak
+*.tmp
+
+# Файлы операционной системы
+Thumbs.db
+.DS_Store
+.temp

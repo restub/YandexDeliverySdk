@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateGlobalUsings>false</GenerateGlobalUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="restub" Version="0.18.9" />
+    <PackageReference Include="RestSharp" Version="106.15.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+</Project>

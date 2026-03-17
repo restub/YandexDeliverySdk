@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandexDeliverySdk", "YandexDeliverySdk\YandexDeliverySdk.csproj", "{5B58BF7D-F1DF-4549-AB73-9362BD8FEEE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandexDeliveryTests", "YandexDeliveryTests\YandexDeliveryTests.csproj", "{F65569DD-7088-4460-808E-3DD4E99DEF57}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B58BF7D-F1DF-4549-AB73-9362BD8FEEE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B58BF7D-F1DF-4549-AB73-9362BD8FEEE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B58BF7D-F1DF-4549-AB73-9362BD8FEEE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B58BF7D-F1DF-4549-AB73-9362BD8FEEE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65569DD-7088-4460-808E-3DD4E99DEF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65569DD-7088-4460-808E-3DD4E99DEF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65569DD-7088-4460-808E-3DD4E99DEF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65569DD-7088-4460-808E-3DD4E99DEF57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
