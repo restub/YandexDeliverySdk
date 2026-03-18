@@ -3,9 +3,10 @@ using System.Linq;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
 using Restub;
+using YandexDeliverySdk;
 using YandexDeliverySdk.DataContracts;
 
-namespace YandexDeliverySdk.Example;
+namespace YandexDeliveryTests;
 
 using static YandexDeliveryClient;
 

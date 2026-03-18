@@ -18,10 +18,10 @@ public class OfferInfoRequest
     [DataMember(Name = "places")]
     public ResourcePlace[] Places { get; set; }
 
-    [IgnoreDataMember] // query parameter
+    [IgnoreDataMember] // параметр строки запроса
     public bool IsOversized { get; set; }
 
-    [IgnoreDataMember] // query parameter
+    [IgnoreDataMember] // параметр строки запроса
     public TariffType LastMilePolicy { get; set; }
 
 }

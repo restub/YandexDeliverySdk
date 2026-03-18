@@ -11,15 +11,27 @@ using System.Runtime.Serialization;
 [DataContract]
 public class PlacePhysicalDimensions
 {
+    /// <summary>
+    /// Вес брутто, граммы
+    /// </summary>
     [DataMember(Name = "weight_gross")]
     public long WeightGross { get; set; }
 
+    /// <summary>
+    /// Длина, сантиметры
+    /// </summary>
     [DataMember(Name = "dx")]
     public long Dx { get; set; }
 
+    /// <summary>
+    /// Высота, сантиметры
+    /// </summary>
     [DataMember(Name = "dy")]
     public long Dy { get; set; }
 
+    /// <summary>
+    /// Ширина, сантиметры
+    /// </summary>
     [DataMember(Name = "dz")]
     public long Dz { get; set; }
 }
