@@ -3,33 +3,25 @@
 using System.Runtime.Serialization;
 
 /// <summary>
-/// 1.02. Получение интервалов доставки
-/// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/1.-Podgotovka-zayavki/apib2bplatformoffersinfo-get
+/// 1.03. Получение интервалов доставки #2
+/// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/1.-Podgotovka-zayavki/apib2bplatformoffersinfo-post
 /// </summary>
 [DataContract]
 public class OfferInfoRequest
 {
-    public OfferInfoRequest(string stationId)
-    {
-        StationId = stationId;
-    }
+    [DataMember(Name = "source")]
+    public SourceNode Source { get; set; }
 
-    [DataMember(Name = "station_id")]
-    public string StationId { get; set; }
+    [DataMember(Name = "destination")]
+    public DestinationNode Destination { get; set; }
 
-    [DataMember(Name = "full_address")]
-    public string FullAddress { get; set; }
+    [DataMember(Name = "places")]
+    public ResourcePlace[] Places { get; set; }
 
-    [DataMember(Name = "is_oversized")]
+    [IgnoreDataMember] // query parameter
     public bool IsOversized { get; set; }
 
-    [DataMember(Name = "last_mile_policy")]
+    [IgnoreDataMember] // query parameter
     public TariffType LastMilePolicy { get; set; }
 
-    [DataMember(Name = "self_pickup_id")]
-    public string SelfPickupId { get; set; }
-
-    // Not supported by restub
-    // [DataMember(Name = "send_unix")]
-    // public bool SendUnix { get; set; }
 }

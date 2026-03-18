@@ -21,26 +21,26 @@ public class Test
     public void DetectLocationReturnsLocations()
     {
         var result = Client.DetectLocation("Москва");
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Variants, Is.Not.Null);
             Assert.That(result.Variants.Length, Is.GreaterThan(0));
             Assert.That(result.Variants.First().Address, Is.EqualTo("Москва"));
             Assert.That(result.Variants.First().GeoId, Is.EqualTo(213));
-        });
+        }
     }
 
     [Test]
     public void GetAllPickupPoints()
     {
         var result = Client.GetPickupPonts();
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Points, Is.Not.Null);
             Assert.That(result.Points.Length, Is.GreaterThan(0));
-        });
+        }
     }
 
     [Test]
@@ -54,12 +54,12 @@ public class Test
             PaymentMethods = [ PaymentMethod.BoundCard ],
         });
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Points, Is.Not.Null);
             Assert.That(result.Points.Length, Is.GreaterThan(0));
-        });
+        }
     }
 
     [Test]
@@ -67,12 +67,12 @@ public class Test
     {
         var result = Client.CalculatePricing(new PricingRequest
         {
-            Source = new PricingSourceNode { PlatformStationId = TestPlatform2 },
-            Destination = new PricingDestinationNode { PlatformStationId = TestPlatform3 },
+            Source = new SourceNode { PlatformStationId = TestPlatform2 },
+            Destination = new DestinationNode { PlatformStationId = TestPlatform3 },
             TotalWeight = 5,
             Places =
             [
-                new PricingResourcePlace
+                new ResourcePlace
                 {
                     PhysicalDims = new PlacePhysicalDimensions
                     {
@@ -82,37 +82,27 @@ public class Test
                         WeightGross = 3,
                     }
                 },
-                new PricingResourcePlace
-                {
-                    PhysicalDims = new PlacePhysicalDimensions
-                    {
-                        Dx = 5,
-                        Dy = 5,
-                        Dz = 5,
-                        WeightGross = 2,
-                    }
-                }
+                new ResourcePlace(5, 5, 5, 2),
             ]
         });
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.DeliveryDays, Is.GreaterThanOrEqualTo(0));
             Assert.That(result.PricingAmount, Is.GreaterThanOrEqualTo(1));
             Assert.That(result.PricingTotal, Does.EndWith("RUB"));
-        });
+        }
     }
 
     [Test]
-    public void GetOffersInfoWorks()
+    public void GetOffersInfoGetWorks()
     {
-        var result = Client.GetOffersInfo(new OfferInfoRequest(TestPlatform1)
-        {
-            SelfPickupId = TestPlatform3,
-        });
+        var result = Client.GetOffersInfo(
+            stationId: TestPlatform1, selfPickupStationId: TestPlatform3,
+            lastMilePolicy: TariffType.SelfPickup, isOversized: true);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Offers, Is.Not.Null);
@@ -122,24 +112,79 @@ public class Test
             Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
             Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
             Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
-        });
+        }
     }
 
     [Test]
-    public void GetOffersInfoFails()
+    public void GetOffersInfoGetFails()
     {
-        var ex = Assert.Throws<RestubException>(() =>
-        Client.GetOffersInfo(new OfferInfoRequest(TestPlatform1)
-        {
-            SelfPickupId = TestPlatform3 + "blah",
-        }));
+        var ex = Assert.Throws<YandexDeliveryException>(() =>
+            Client.GetOffersInfo(
+                stationId: TestPlatform1, selfPickupStationId: "neverwhere",
+                lastMilePolicy: TariffType.SelfPickup, isOversized: true));
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
-            var err = ex.Data["Error"] as ErrorInfo;
+            var err = ex.ErrorInfo;
             Assert.That(err, Is.Not.Null);
             Assert.That(err.Code, Is.EqualTo("validation_error"));
+        }
+    }
+
+    [Test]
+    public void GetOffersInfoPostWorks()
+    {
+        var result = Client.GetOffersInfo(new OfferInfoRequest
+        {
+            Source = new SourceNode { PlatformStationId = TestPlatform1 },
+            Destination = new DestinationNode { PlatformStationId = TestPlatform3 },
+            Places =
+            [
+                new ResourcePlace(10, 10, 10, 3),
+                new ResourcePlace
+                {
+                    PhysicalDims = new PlacePhysicalDimensions
+                    {
+                        Dx = 5,
+                        Dy = 10,
+                        Dz = 15,
+                        WeightGross = 2,
+                    }
+                },
+            ],
+            LastMilePolicy = TariffType.SelfPickup,
+            IsOversized = true,
         });
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Offers, Is.Not.Null);
+            Assert.That(result.Offers.Length, Is.GreaterThanOrEqualTo(1));
+            Assert.That(result.Offers[0], Is.Not.Null);
+            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
+        }
+    }
+
+    [Test]
+    public void GetOffersInfoPostFails()
+    {
+        var ex = Assert.Throws<YandexDeliveryException>(() =>
+            Client.GetOffersInfo(new OfferInfoRequest
+            {
+                Source = new SourceNode { PlatformStationId = TestPlatform1 },
+                Destination = new DestinationNode { PlatformStationId = "nowherelse" },
+            }));
+
+        using (Assert.EnterMultipleScope())
+        {
+            var err = ex.ErrorInfo;
+            Assert.That(err, Is.Not.Null);
+            Assert.That(err.Code, Is.EqualTo("validation_error"));
+        }
     }
 
     private void Example()

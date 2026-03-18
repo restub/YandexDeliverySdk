@@ -10,10 +10,10 @@ using System.Runtime.Serialization;
 public class PricingRequest
 {
     [DataMember(Name = "source")]
-    public PricingSourceNode Source { get; set; }
+    public SourceNode Source { get; set; }
 
     [DataMember(Name = "destination")]
-    public PricingDestinationNode Destination { get; set; }
+    public DestinationNode Destination { get; set; }
 
     [DataMember(Name = "tariff")]
     public TariffType Tariff { get; set; }
@@ -31,5 +31,5 @@ public class PricingRequest
     public PaymentMethod PaymentMethod { get; set; }
 
     [DataMember(Name = "places")]
-    public PricingResourcePlace[] Places { get; set; }
+    public ResourcePlace[] Places { get; set; }
 }

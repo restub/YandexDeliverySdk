@@ -44,8 +44,10 @@ public partial class YandexDeliveryClient : RestubClient, IAuthenticator
 
     protected override Exception CreateException(IRestResponse res, string msg, IHasErrors error)
     {
-        var ex = base.CreateException(res, msg, error);
-        ex.Data["Error"] = error;
-        return ex;
+        return new YandexDeliveryException(res.StatusCode, msg, res.ErrorException)
+        {
+            ErrorInfo = error as ErrorInfo,
+            ErrorResponseText = res.Content,
+        };
     }
 }

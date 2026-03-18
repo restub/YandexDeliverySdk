@@ -24,9 +24,32 @@ partial class YandexDeliveryClient
     /// Получение расписания вывозов в регионы.В качестве конечного пункта нужно указать либо full_address(строковый конечный адрес), либо self_pickup_id(ID ПВЗ)
     /// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/1.-Podgotovka-zayavki/apib2bplatformoffersinfo-get
     /// </summary>
-    public OfferInfoResponse GetOffersInfo(OfferInfoRequest request) =>
+    public OfferInfoResponse GetOffersInfo(string stationId,
+        string fullAddress = null, string selfPickupStationId = null,
+        bool isOversized = false, TariffType lastMilePolicy = TariffType.TimeInterval) =>
         Get<OfferInfoResponse>("offers/info", r =>
         {
-            r.AddQueryString(request);
+            // сериализатор пригодится в extension-методах
+            r.JsonSerializer = Serializer;
+            r.AddQueryParameter("station_id", stationId);
+            r.AddQueryParameterIfNotEmpty("full_address", fullAddress);
+            r.AddQueryParameterIfNotEmpty("self_pickup_id", selfPickupStationId);
+            r.AddQueryParameterIfNotDefault("is_oversized", isOversized);
+            r.AddQueryParameterIfNotDefault("last_mile_policy", lastMilePolicy, TariffType.TimeInterval);
+            // параметр "send_unix" не нужен и не поддерживается
+        });
+
+    /// <summary>
+    /// 1.03. Получение интервалов доставки #2
+    /// Получение расписания вывозов в регионы. В качестве конечного пункта нужно указать либо address (строковый конечный адрес), либо platform_station_id (ID ПВЗ)
+    /// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/1.-Podgotovka-zayavki/apib2bplatformoffersinfo-post
+    /// </summary>
+    public OfferInfoResponse GetOffersInfo(OfferInfoRequest request) =>
+        Post<OfferInfoResponse>("offers/info", request, r =>
+        {
+            // сериализатор пригодится в extension-методах
+            r.JsonSerializer = Serializer;
+            r.AddQueryParameterIfNotDefault("is_oversized", request.IsOversized);
+            r.AddQueryParameterIfNotDefault("last_mile_policy", request.LastMilePolicy, TariffType.TimeInterval);
         });
 }
