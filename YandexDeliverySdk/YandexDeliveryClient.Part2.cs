@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using YandexDeliverySdk.DataContracts;
+﻿using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliverySdk;
 
@@ -11,7 +10,7 @@ partial class YandexDeliveryClient
     /// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/2.-Tochki-samoprivoza-i-PVZ/apib2bplatformlocationdetect-post
     /// </summary>
     public LocationDetectedResponse DetectLocation(string location) =>
-        Post<LocationDetectedResponse>("api/b2b/platform/location/detect", new
+        Post<LocationDetectedResponse>("location/detect", new
         {
             location,
         });
@@ -23,5 +22,5 @@ partial class YandexDeliveryClient
     /// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/2.-Tochki-samoprivoza-i-PVZ/apib2bplatformpickup-pointslist-post
     /// </summary>
     public PickupPointsResponse GetPickupPonts(PickupPointFilter filter = null) =>
-        Post<PickupPointsResponse>("api/b2b/platform/pickup-points/list", filter as object ?? new { });
+        Post<PickupPointsResponse>("pickup-points/list", filter as object ?? new { });
 }

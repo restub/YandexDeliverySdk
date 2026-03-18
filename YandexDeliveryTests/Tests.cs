@@ -1,8 +1,12 @@
+using System;
 using System.Linq;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
 using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliverySdk.Example;
+
+using static YandexDeliveryClient;
 
 [TestFixture]
 public class Test
@@ -54,6 +58,69 @@ public class Test
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Points, Is.Not.Null);
             Assert.That(result.Points.Length, Is.GreaterThan(0));
+        });
+    }
+
+    [Test]
+    public void CalculatePricingWorks()
+    {
+        var result = Client.CalculatePricing(new PricingRequest
+        {
+            Source = new PricingSourceNode { PlatformStationId = TestPlatform2 },
+            Destination = new PricingDestinationNode { PlatformStationId = TestPlatform3 },
+            TotalWeight = 5,
+            Places =
+            [
+                new PricingResourcePlace
+                {
+                    PhysicalDims = new PlacePhysicalDimensions
+                    {
+                        Dx = 10,
+                        Dy = 10,
+                        Dz = 10,
+                        WeightGross = 3,
+                    }
+                },
+                new PricingResourcePlace
+                {
+                    PhysicalDims = new PlacePhysicalDimensions
+                    {
+                        Dx = 5,
+                        Dy = 5,
+                        Dz = 5,
+                        WeightGross = 2,
+                    }
+                }
+            ]
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.DeliveryDays, Is.GreaterThanOrEqualTo(0));
+            Assert.That(result.PricingAmount, Is.GreaterThanOrEqualTo(1));
+            Assert.That(result.PricingTotal, Does.EndWith("RUB"));
+        });
+    }
+
+    [Test]
+    public void GetOffersInfoWorks()
+    {
+        var result = Client.GetOffersInfo(new OfferInfoRequest(TestPlatform1)
+        {
+            SelfPickupId = TestPlatform3,
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Offers, Is.Not.Null);
+            Assert.That(result.Offers.Length, Is.GreaterThanOrEqualTo(1));
+            Assert.That(result.Offers[0], Is.Not.Null);
+            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
         });
     }
 

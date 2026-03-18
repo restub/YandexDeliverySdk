@@ -13,8 +13,9 @@ public partial class YandexDeliveryClient : RestubClient, IAuthenticator
 {
 	// параметры доставки на следующий день
 	// https://yandex.com/support/delivery-profile/ru/api/other-day/access
+	public const string Api = "api/b2b/platform/";
 	public const string TestUrl = "https://b2b.taxi.tst.yandex.net/";
-	public const string MainUrl = "https://b2b-authproxy.taxi.yandex.net";
+	public const string MainUrl = "https://b2b-authproxy.taxi.yandex.net/";
 	public const string TestToken = "y2_AgAAAAD04omrAAAPeAAAAAACRpC94Qk6Z5rUTgOcTgYFECJllXYKFx8";
 
 	// тестовые склады и ПВЗ, platform_station_id
@@ -23,7 +24,7 @@ public partial class YandexDeliveryClient : RestubClient, IAuthenticator
 	public const string TestPlatform3 = "01946f4f013c7337874ec2fb848a58a4"; // Куда: Москва Ленинградский проспект 37 к9
 
 	public YandexDeliveryClient(string baseUrl = TestUrl, string token = TestToken)
-		: base(baseUrl)
+		: base(baseUrl + Api)
 	{
 		Token = token;
 	}
