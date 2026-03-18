@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
+using Restub;
 using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliverySdk.Example;
@@ -121,6 +122,23 @@ public class Test
             Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
             Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
             Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
+        });
+    }
+
+    [Test]
+    public void GetOffersInfoFails()
+    {
+        var ex = Assert.Throws<RestubException>(() =>
+        Client.GetOffersInfo(new OfferInfoRequest(TestPlatform1)
+        {
+            SelfPickupId = TestPlatform3 + "blah",
+        }));
+
+        Assert.Multiple(() =>
+        {
+            var err = ex.Data["Error"] as ErrorInfo;
+            Assert.That(err, Is.Not.Null);
+            Assert.That(err.Code, Is.EqualTo("validation_error"));
         });
     }
 

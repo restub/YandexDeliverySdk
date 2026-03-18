@@ -29,6 +29,7 @@ public class OfferInfoRequest
     [DataMember(Name = "self_pickup_id")]
     public string SelfPickupId { get; set; }
 
-    [DataMember(Name = "send_unix")]
-    public bool SendUnix { get; set; }
+    // Not supported by restub
+    // [DataMember(Name = "send_unix")]
+    // public bool SendUnix { get; set; }
 }
