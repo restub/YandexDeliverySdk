@@ -26,7 +26,7 @@ public class Test
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Variants, Is.Not.Null);
-            Assert.That(result.Variants.Length, Is.GreaterThan(0));
+            Assert.That(result.Variants, Has.Length.GreaterThan(0));
             Assert.That(result.Variants.First().Address, Is.EqualTo("Москва"));
             Assert.That(result.Variants.First().GeoId, Is.EqualTo(213));
         }
@@ -35,19 +35,19 @@ public class Test
     [Test]
     public void GetAllPickupPoints()
     {
-        var result = Client.GetPickupPonts();
+        var result = Client.GetPickupPoints();
         using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Points, Is.Not.Null);
-            Assert.That(result.Points.Length, Is.GreaterThan(0));
+            Assert.That(result.Points, Has.Length.GreaterThan(0));
         }
     }
 
     [Test]
     public void GetFilteredPickupPoints()
     {
-        var result = Client.GetPickupPonts(new PickupPointFilter
+        var result = Client.GetPickupPoints(new PickupPointFilter
         { 
             GeoId = 213,
             IsYandexBranded = true,
@@ -59,7 +59,7 @@ public class Test
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Points, Is.Not.Null);
-            Assert.That(result.Points.Length, Is.GreaterThan(0));
+            Assert.That(result.Points, Has.Length.GreaterThan(0));
         }
     }
 
@@ -107,12 +107,14 @@ public class Test
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Offers, Is.Not.Null);
-            Assert.That(result.Offers.Length, Is.GreaterThanOrEqualTo(1));
-            Assert.That(result.Offers[0], Is.Not.Null);
-            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MinValue));
-            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
-            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
-            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(result.Offers, Has.Length.GreaterThanOrEqualTo(1));
+
+            var firstOffer = result.Offers[0];
+            Assert.That(firstOffer, Is.Not.Null);
+            Assert.That(firstOffer.From, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(firstOffer.From, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(firstOffer.To, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(firstOffer.To, Does.Not.EqualTo(DateTime.MaxValue));
         }
     }
 
@@ -161,12 +163,14 @@ public class Test
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Offers, Is.Not.Null);
-            Assert.That(result.Offers.Length, Is.GreaterThanOrEqualTo(1));
-            Assert.That(result.Offers[0], Is.Not.Null);
-            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MinValue));
-            Assert.That(result.Offers[0].From, Does.Not.EqualTo(DateTime.MaxValue));
-            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MinValue));
-            Assert.That(result.Offers[0].To, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(result.Offers, Has.Length.GreaterThanOrEqualTo(1));
+
+            var firstOffer = result.Offers[0];
+            Assert.That(firstOffer, Is.Not.Null);
+            Assert.That(firstOffer.From, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(firstOffer.From, Does.Not.EqualTo(DateTime.MaxValue));
+            Assert.That(firstOffer.To, Does.Not.EqualTo(DateTime.MinValue));
+            Assert.That(firstOffer.To, Does.Not.EqualTo(DateTime.MaxValue));
         }
     }
 

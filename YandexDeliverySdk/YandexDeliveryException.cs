@@ -11,6 +11,7 @@ public class YandexDeliveryException : RestubException
     public YandexDeliveryException(HttpStatusCode code, string message, Exception inner = null, ErrorInfo error = null)
         : base(code, message, inner)
     {
+        ErrorInfo = error;
     }
 
     public ErrorInfo ErrorInfo

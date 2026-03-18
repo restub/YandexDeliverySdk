@@ -21,6 +21,6 @@ partial class YandexDeliveryClient
     /// Метод принимает пустое тело запроса, в этом случае вернутся все доступные точки самопривоза, ПВЗ и Постаматы.
     /// https://yandex.com/support/delivery-profile/ru/api/other-day/ref/2.-Tochki-samoprivoza-i-PVZ/apib2bplatformpickup-pointslist-post
     /// </summary>
-    public PickupPointsResponse GetPickupPonts(PickupPointFilter filter = null) =>
+    public PickupPointsResponse GetPickupPoints(PickupPointFilter filter = null) =>
         Post<PickupPointsResponse>("pickup-points/list", filter as object ?? new { });
 }

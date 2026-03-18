@@ -11,7 +11,10 @@ using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliverySdk;
 
-public partial class YandexDeliveryClient : RestubClient, IAuthenticator
+using static YandexDeliveryClient;
+
+public partial class YandexDeliveryClient(string baseUrl = TestUrl, string token = TestToken) 
+    : RestubClient(baseUrl + Api), IAuthenticator
 {
     // параметры доставки на следующий день
     // https://yandex.com/support/delivery-profile/ru/api/other-day/access
@@ -25,13 +28,7 @@ public partial class YandexDeliveryClient : RestubClient, IAuthenticator
     public const string TestPlatform2 = "e1139f6d-e34f-47a9-a55f-31f032a861a6"; // Откуда: Москва Ленинградский проспект 27
     public const string TestPlatform3 = "01946f4f013c7337874ec2fb848a58a4"; // Куда: Москва Ленинградский проспект 37 к9
 
-    public YandexDeliveryClient(string baseUrl = TestUrl, string token = TestToken)
-        : base(baseUrl + Api)
-    {
-        Token = token;
-    }
-
-    public string Token { get; set; }
+    public string Token { get; set; } = token;
 
     public void Authenticate(IRestClient client, IRestRequest request)
     {

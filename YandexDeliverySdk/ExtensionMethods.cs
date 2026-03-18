@@ -18,12 +18,12 @@ namespace YandexDeliverySdk
             }
         }
 
-        public static void AddQueryParameterIfNotDefault<T> (this IRestRequest rest, string name,
-            T value, T defaultValue = default, Func<T, string> toString = null)
+        public static void AddQueryParameterIfNotDefault<T> (this IRestRequest rest,
+            string name, T value, T defaultValue = default, Func<T, string> toString = null)
         {
             if (!Equals(value, defaultValue))
             {
-                var jsonValue = rest.ToJsonString(value);
+                var jsonValue = toString?.Invoke(value) ?? rest.ToJsonString(value);
                 rest.AddQueryParameter(name, jsonValue);
             }
         }
