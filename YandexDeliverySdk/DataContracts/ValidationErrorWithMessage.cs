@@ -1,15 +1,13 @@
 ﻿namespace YandexDeliverySdk.DataContracts;
 
-using System;
 using System.Runtime.Serialization;
-using Restub.DataContracts;
 
 /// <summary>
-/// Информация об ошибке
+/// 5.02. Статус регистрации мерчанта
+/// https://yandex.ru/support/delivery-profile/ru/api/other-day/ref/5.-Upravlenie-merchantami/apib2bplatformmerchantregistrationstatus-get
 /// </summary>
 [DataContract]
-[Serializable]
-public class ErrorInfo : IHasErrors
+public class ValidationErrorWithMessage
 {
     [DataMember(Name = "code")]
     public string Code { get; set; }
@@ -19,10 +17,4 @@ public class ErrorInfo : IHasErrors
 
     [DataMember(Name = "details")]
     public ValidationErrorDetails Details { get; set; }
-
-    public bool HasErrors() => true;
-
-    public string GetErrorMessage() => Message;
-
-    public override string ToString() => $"Code: {Code}. Message: {Message}";
 }

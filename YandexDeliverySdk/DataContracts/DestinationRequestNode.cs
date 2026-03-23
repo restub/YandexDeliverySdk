@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 public class DestinationRequestNode
 {
     [DataMember(Name = "type")]
-    public string Type { get; set; }
+    public DestinationRequestNodeType Type { get; set; }
 
     [DataMember(Name = "platform_station")]
     public PlatformStation PlatformStation { get; set; }
