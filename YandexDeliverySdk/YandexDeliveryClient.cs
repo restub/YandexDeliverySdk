@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using Restub;
@@ -14,11 +10,11 @@ namespace YandexDeliverySdk;
 using static YandexDeliveryClient;
 
 public partial class YandexDeliveryClient(string baseUrl = TestUrl, string token = TestToken) 
-    : RestubClient(baseUrl + Api), IAuthenticator
+    : RestubClient(baseUrl + ApiRoot), IAuthenticator
 {
     // параметры доставки на следующий день
     // https://yandex.com/support/delivery-profile/ru/api/other-day/access
-    public const string Api = "api/b2b/platform/";
+    public const string ApiRoot = "api/b2b/platform/";
     public const string TestUrl = "https://b2b.taxi.tst.yandex.net/";
     public const string MainUrl = "https://b2b-authproxy.taxi.yandex.net/";
     public const string TestToken = "y2_AgAAAAD04omrAAAPeAAAAAACRpC94Qk6Z5rUTgOcTgYFECJllXYKFx8";
