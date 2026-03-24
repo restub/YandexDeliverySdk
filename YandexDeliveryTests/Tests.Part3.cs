@@ -1,16 +1,9 @@
 using System;
-using System.Linq;
-using System.Net;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
-using Restub;
 using YandexDeliverySdk;
 using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliveryTests;
-
-using static YandexDeliveryClient;
-
 partial class Test
 {
     [Test] [Ignore("Merchant not found, bad request, error 400")]

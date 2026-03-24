@@ -1,6 +1,5 @@
 using System.Linq;
 using NUnit.Framework;
-using YandexDeliverySdk;
 using YandexDeliverySdk.DataContracts;
 
 namespace YandexDeliveryTests;
@@ -51,7 +50,7 @@ partial class Test
         }
     }
 
-    [Test]
+    [Test] [Ignore("Access denied, forbidden, error 403")] 
     public void GetFilteredPickupPointsWorksOnMainClient()
     {
         var result = MainClient.GetPickupPoints(new PickupPointFilter

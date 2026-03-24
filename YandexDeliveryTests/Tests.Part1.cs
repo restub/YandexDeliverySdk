@@ -1,9 +1,5 @@
 using System;
-using System.Linq;
-using System.Net;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NUnit.Framework;
-using Restub;
 using YandexDeliverySdk;
 using YandexDeliverySdk.DataContracts;
 

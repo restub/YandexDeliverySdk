@@ -4,6 +4,7 @@ using RestSharp.Authenticators;
 using Restub;
 using Restub.DataContracts;
 using YandexDeliverySdk.DataContracts;
+using YandexDeliverySdk.Serialization;
 
 namespace YandexDeliverySdk;
 
@@ -31,6 +32,9 @@ public partial class YandexDeliveryClient(string baseUrl = TestUrl, string token
         request.AddHeader("Authorization", "Bearer " + Token);
         request.AddHeader("Accept-Language", "ru");
     }
+
+    protected override IRestubSerializer CreateSerializer() =>
+        new YandexDeliverySerializer();
 
     protected override IHasErrors DeserializeErrorResponse(IRestResponse response) =>
         Serializer.Deserialize<ErrorInfo>(response);

@@ -64,7 +64,7 @@ partial class Test
         }
     }
 
-    [Test] // [Ignore("Access denied, error 401")]
+    [Test] [Ignore("Access denied, error 401")]
     public void FindMerchantWorks()
     {
         var result = MainClient.FindMerchant("9715386101");
